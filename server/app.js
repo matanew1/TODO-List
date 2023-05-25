@@ -11,7 +11,7 @@ import userRoutes from './routes/userRoute.js';
 app.use(middlewares);
 
 //routes
-app.use('/',userRoutes);
+app.use('/', userRoutes);
 
 export default app;
 
