@@ -7,21 +7,19 @@ const { expect } = chai;
 
 chai.use(chaiHttp);
 describe('User Controller', () => {
-  beforeEach((done) => {
-    // Perform setup steps or preparations before each test
-    // For example, authenticate the user and obtain the auth token
+//   beforeEach((done) => {
 
-    chai.request(app)
-      .delete('/users')
-      .end((err, res) => {
-        if (err) {
-          console.error(err);
-          done(err);
-        } else {
-          done();
-        }
-      });
-  });
+//     chai.request(app)
+//       .delete('/users')
+//       .end((err, res) => {
+//         if (err) {
+//           console.error(err);
+//           done(err);
+//         } else {
+//           done();
+//         }
+//       });
+//   });
 
   it('POST /users -> SHOULD RETURN 201', (done) => {
     chai.request(app)
