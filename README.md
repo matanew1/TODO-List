@@ -18,6 +18,7 @@ npm start
 
 * Run the following two lines of code in terminal of this folder `server`.
 ```
+npm init
 npm install
 nodemon server
 ```
