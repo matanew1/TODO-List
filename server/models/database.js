@@ -1,15 +1,21 @@
-import mongoose, { connect } from 'mongoose';
-import configuration from '../config/config.js';
+import mongoose, { connect } from "mongoose";
+import configuration from "../config/config.js";
 
 const mongoURI = configuration.uri;
 
 connect(mongoURI, {
   useNewUrlParser: true,
-  useUnifiedTopology: true
-}).then(() => {
-  console.log('Connected to MongoDB');
-}).catch((error) => {
-  console.error('Failed to connect to MongoDB', error);
-});
+  useUnifiedTopology: true,
+})
+  .then(() => {
+    console.log("Connected to MongoDB");
+  })
+  .catch((error) => {
+    console.error("Failed to connect to MongoDB", error);
+  });
 
-export default mongoose;
+function createId(...args) {
+  return args.join("$");
+}
+
+export default { mongoose, createId };
