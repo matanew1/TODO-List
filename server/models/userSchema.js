@@ -2,6 +2,11 @@ import mongoose from './database.js';
 import pkg from 'bcryptjs';
 const { hashSync } = pkg;
 
+/**
+ * Defines the user schema and exports the User model.
+ */
+
+// Define the user schema
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -22,6 +27,7 @@ const userSchema = new mongoose.Schema({
   }
 });
 
+// Create the User model using the user schema
 const User = mongoose.model('User', userSchema);
 
 export default User;

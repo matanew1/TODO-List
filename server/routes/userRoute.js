@@ -1,11 +1,18 @@
-//user routes
 import { Router } from 'express';
 const router = Router();
 import UserController from '../controllers/userController.js';
 
-// routes
+/**
+ * Defines the routes for user-related operations.
+ */
+
+// Retrieves all users
 router.get('/users', UserController.getAllUsers);
+
+// Creates a new user
 router.post('/users', UserController.createUser);
-router.delete('/users', UserController.deleteAllUsers)
+
+// Deletes all users
+router.delete('/users', UserController.deleteAllUsers);
 
 export default router;
