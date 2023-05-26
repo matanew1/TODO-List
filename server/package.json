@@ -13,8 +13,8 @@
   },
   "type": "module",
   "scripts": {
-    "start": "nodemon server.js",
-    "test": "mocha test/user.test.js"
+    "start": "node server.js",
+    "test": "mocha test/userController.test.js"
   },
   "name": "server",
   "version": "1.0.0",
