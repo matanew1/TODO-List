@@ -41,6 +41,14 @@ class UserService {
       return new Error(error);
     }
   }
+
+  static async updateUser(update) {
+      try {
+        await User.findByIdAndUpdate(update);
+      } catch (error) {
+        return new Error(error);
+      }
+    }
 }
 
 export default UserService;

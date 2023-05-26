@@ -1,5 +1,6 @@
 // write to json file
 import fs from 'fs';
+import json_path from "../../config/config";
 
 /**
  * Parses a JSON file and returns the parsed object.
@@ -9,7 +10,7 @@ import fs from 'fs';
 function parseJSONFromFile(jsonFileName) {
   try {
     // Read JSON file
-    const jsonData = fs.readFileSync(jsonFileName, 'utf8');
+    const jsonData = fs.readFileSync(`${json_path}newUser.json`, "utf8");
 
     // Parse JSON string to object
     const parsedObject = JSON.parse(jsonData);

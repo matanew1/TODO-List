@@ -24,4 +24,8 @@ const mongoURI = configuration.uri;
 // Establish the connection to MongoDB
 connectToMongoDB(mongoURI);
 
-export default mongoose;
+function createId(...args) {
+  return args.join("$");
+}
+
+export default { mongoose, createId };

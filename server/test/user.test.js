@@ -2,7 +2,6 @@ import chai from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../app.js';
 import parseJSONFromFile from './utils/helper.js'
-import { beforeEach } from 'mocha';
 const { expect } = chai;
 
 chai.use(chaiHttp);
