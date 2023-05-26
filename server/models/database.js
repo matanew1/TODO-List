@@ -1,5 +1,5 @@
-import mongoose, { connect } from 'mongoose';
-import configuration from '../config/config.js';
+import mongoose, { connect } from "mongoose";
+import configuration from "../config/config.js";
 
 /**
  * Establishes a connection to MongoDB using the provided URI.
@@ -10,11 +10,11 @@ async function connectToMongoDB(mongoURI) {
   try {
     await connect(mongoURI, {
       useNewUrlParser: true,
-      useUnifiedTopology: true
+      useUnifiedTopology: true,
     });
-    console.log('Connected to MongoDB');
+    console.log("Connected to MongoDB");
   } catch (error) {
-    console.error('Failed to connect to MongoDB', error);
+    console.error("Failed to connect to MongoDB", error);
   }
 }
 
@@ -24,8 +24,4 @@ const mongoURI = configuration.uri;
 // Establish the connection to MongoDB
 connectToMongoDB(mongoURI);
 
-function createId(...args) {
-  return args.join("$");
-}
-
-export default { mongoose, createId };
+export default mongoose;

@@ -1,6 +1,6 @@
 // write to json file
-import fs from 'fs';
-import json_path from "../../config/config";
+import fs from "fs";
+import configuration from "../../config/config.js";
 
 /**
  * Parses a JSON file and returns the parsed object.
@@ -10,14 +10,17 @@ import json_path from "../../config/config";
 function parseJSONFromFile(jsonFileName) {
   try {
     // Read JSON file
-    const jsonData = fs.readFileSync(`${json_path}newUser.json`, "utf8");
+    const jsonData = fs.readFileSync(
+      `${configuration.json_path}${jsonFileName}`,
+      "utf8"
+    );
 
     // Parse JSON string to object
     const parsedObject = JSON.parse(jsonData);
 
     return parsedObject;
   } catch (error) {
-    console.error('Error parsing JSON:', error);
+    console.error("Error parsing JSON:", error);
     return null;
   }
 }

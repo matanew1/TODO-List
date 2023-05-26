@@ -1,4 +1,4 @@
-import User from '../models/userSchema.js';
+import User from "../models/userSchema.js";
 
 /**
  * A class that provides user-related services.
@@ -43,12 +43,12 @@ class UserService {
   }
 
   static async updateUser(update) {
-      try {
-        await User.findByIdAndUpdate(update);
-      } catch (error) {
-        return new Error(error);
-      }
+    try {
+      await User.findOneAndUpdate(update);
+    } catch (error) {
+      return new Error(error);
     }
+  }
 }
 
 export default UserService;

@@ -1,4 +1,4 @@
-import UserService from '../services/userService.js';
+import UserService from "../services/userService.js";
 
 /**
  * Controller class for handling user-related operations.
@@ -17,7 +17,7 @@ class UserController {
     } catch (error) {
       res.status(500).send(error.message);
     }
-  }
+  };
 
   /**
    * Creates a new user.
@@ -30,11 +30,11 @@ class UserController {
       const newUser = req.body;
       console.log(newUser);
       const user = await UserService.createUser(newUser);
-      res.status(201).json(user);
+      res.status(201).json(user).send("User Created");
     } catch (error) {
       res.status(500).send(error.message);
     }
-  }
+  };
 
   /**
    * Deletes all users.
@@ -45,22 +45,22 @@ class UserController {
   static deleteAllUsers = async (req, res) => {
     try {
       await UserService.deleteAllUsers();
-      res.status(200).send('All users deleted.');
+      res.status(200).send("All users deleted.");
     } catch (error) {
       res.status(500).send(error.message);
     }
-  }
+  };
 
-   static updateUser = async (req, res) => {
-      try {
-        const update = req.body;
-        console.log(update);
-        const user = await UserService.updateUser(update);
-        res.status(200).json(user);
-      } catch (error) {
-        res.status(500).error(error.message);
-      }
-   };
+  static updateUser = async (req, res) => {
+    try {
+      const update = req.body;
+      console.log(update);
+      await UserService.updateUser(update);
+      res.status(200).send("User Updated");
+    } catch (error) {
+      res.status(500).error(error.message);
+    }
+  };
 }
 
 export default UserController;
