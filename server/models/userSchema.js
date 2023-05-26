@@ -1,4 +1,4 @@
-import mongoose from './database.js';
+import db from './database.js';
 import pkg from 'bcryptjs';
 const { hashSync } = pkg;
 
@@ -7,7 +7,7 @@ const { hashSync } = pkg;
  */
 
 // Define the user schema
-const userSchema = new mongoose.Schema({
+const userSchema = new db.mongoose.Schema({
   name: {
     type: String,
     required: true
@@ -28,6 +28,6 @@ const userSchema = new mongoose.Schema({
 });
 
 // Create the User model using the user schema
-const User = mongoose.model('User', userSchema);
+const User = db.mongoose.model('User', userSchema);
 
 export default User;
