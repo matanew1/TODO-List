@@ -14,8 +14,8 @@
   "type": "module",
   "scripts": {
     "start": "nodemon server.js",
-    "test": "mocha test/todo.test.js"
-  },
+    "test": "mocha ./test/**/*.test.js"
+  },  
   "name": "server",
   "version": "1.0.0",
   "main": "server.js",

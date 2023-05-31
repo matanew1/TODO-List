@@ -5,7 +5,6 @@ class todoController {
         try {
             const newTodo = req.body
             const todo = await todoService.createTodo(newTodo);
-            console.log(todo)
             res.status(201).send(todo)
         } catch (err) {
             res.status(500).send(err.message)

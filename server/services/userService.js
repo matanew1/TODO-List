@@ -12,7 +12,15 @@ class UserService {
     try {
       return await User.find();
     } catch (error) {
-      return new Error(error);
+      throw new Error(error);
+    }
+  }
+
+  static async getUserIdByEmail(email) {
+    try {
+      return await User.findOne({ email });
+    } catch (error) {
+      throw new Error(error);
     }
   }
 
@@ -23,10 +31,14 @@ class UserService {
    */
   static async createUser(newUser) {
     try {
+      const existUser = await UserService.getUserIdByEmail(newUser.email);
+      if (existUser) 
+        throw new Error("User already exists");
+      
       const user = new User(newUser);
       return await user.save();
     } catch (error) {
-      return new Error(error);
+      throw new Error(error);
     }
   }
 
@@ -38,7 +50,7 @@ class UserService {
     try {
       await User.deleteMany({});
     } catch (error) {
-      return new Error(error);
+      throw new Error(error);
     }
   }
 
@@ -46,7 +58,7 @@ class UserService {
     try {
       await User.findOneAndUpdate(update);
     } catch (error) {
-      return new Error(error);
+      throw new Error(error);
     }
   }
 }

@@ -28,13 +28,29 @@ class UserController {
   static createUser = async (req, res) => {
     try {
       const newUser = req.body;
-      console.log(newUser);
       const user = await UserService.createUser(newUser);
-      res.status(201).json(user).send("User Created");
+      res.status(201).send(user);
+    } catch (error) {
+      console.log(error.message);
+      if (error.message === "Error: User already exists") {
+        res.status(409).send(error.message);
+      } 
+      else {
+        res.status(500).send(error.message);
+      }
+    }
+  };
+  
+
+  static getUserIdByEmail = async (req, res) => {
+    try {
+      const user = await UserService.getUserIdByEmail(req.params.email);
+      res.status(200).send(user);
     } catch (error) {
       res.status(500).send(error.message);
     }
   };
+  
 
   /**
    * Deletes all users.
@@ -54,7 +70,6 @@ class UserController {
   static updateUser = async (req, res) => {
     try {
       const update = req.body;
-      console.log(update);
       await UserService.updateUser(update);
       res.status(200).send("User Updated");
     } catch (error) {
