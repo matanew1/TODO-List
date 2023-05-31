@@ -14,13 +14,14 @@ npm install
 npm start
 ```
 
-### 2 - Run NodeJS
+### 2 -  Install, Test & Run NodeJS
 
-* Run the following two lines of code in terminal of this folder `server`.
+* Run the following four lines of code in terminal of this folder `server`.
 ```
 npm init
 npm install
-nodemon server
+npm test
+npm start
 ```
 
 ### 3 - Enjoy
