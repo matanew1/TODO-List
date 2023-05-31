@@ -16,7 +16,12 @@ class UserService {
     }
   }
 
-  static async getUserIdByEmail(email) {
+  /**
+   * Retrieves a user by email from the database.
+   * @param {string} email - The email of the user to retrieve.
+   * @returns {Promise<User|null|Error>} - A promise that resolves to the user object if found, null if not found, or an Error if there was an error retrieving the user.
+   */
+  static async getUserByEmail(email) {
     try {
       return await User.findOne({ email });
     } catch (error) {
@@ -31,7 +36,7 @@ class UserService {
    */
   static async createUser(newUser) {
     try {
-      const existUser = await UserService.getUserIdByEmail(newUser.email);
+      const existUser = await UserService.getUserByEmail(newUser.email);
       if (existUser) 
         throw new Error("User already exists");
       
@@ -54,6 +59,11 @@ class UserService {
     }
   }
 
+  /**
+   * Updates a user in the database.
+   * @param {object} update - The update object containing the fields to update.
+   * @returns {Promise<void|Error>} - A promise that resolves to void if the user was successfully updated, or an Error if there was an error updating the user.
+   */
   static async updateUser(update) {
     try {
       await User.findOneAndUpdate(update);

@@ -1,23 +1,34 @@
-import { Router } from "express";
+import { Router } from 'express';
 const router = Router();
-import UserController from "../controllers/userController.js";
+import UserController from '../controllers/userController.js';
 
 /**
  * Defines the routes for user-related operations.
  */
 
-// Retrieves all users
-router.get("/users", UserController.getAllUsers);
+/**
+ * GET /users - Retrieve all users.
+ */
+router.get('/users', UserController.getAllUsers);
 
-router.get("/users/:email", UserController.getUserIdByEmail);
+/**
+ * GET /users/:email - Retrieve a user by email.
+ */
+router.get('/users/:email', UserController.getUserByEmail);
 
-// Creates a new user
-router.post("/users", UserController.createUser);
+/**
+ * POST /users - Create a new user.
+ */
+router.post('/users', UserController.createUser);
 
-// Deletes all users
-router.delete("/users", UserController.deleteAllUsers);
+/**
+ * DELETE /users - Delete all users.
+ */
+router.delete('/users', UserController.deleteAllUsers);
 
-// Update a user
-router.put("/users", UserController.updateUser);
+/**
+ * PUT /users - Update a user.
+ */
+router.put('/users', UserController.updateUser);
 
 export default router;

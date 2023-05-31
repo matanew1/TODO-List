@@ -1,15 +1,24 @@
-import TodoService from '../services/todoService.js'
+import TodoService from '../services/todoService.js';
 
+/**
+ * Controller class for handling todo-related operations.
+ */
 class TodoController {
-    static createTodo = async (req, res) => {
-        try {
-            const newTodo = req.body
-            const todo = await TodoService.createTodo(newTodo);
-            res.status(201).send(todo)
-        } catch (err) {
-            res.status(500).send(err.message)
-        }
-    };
+  /**
+   * Create a new todo.
+   * @param {Object} req - The request object.
+   * @param {Object} res - The response object.
+   * @returns {Promise<void>} - A promise that resolves when the todo is successfully created.
+   */
+  static createTodo = async (req, res) => {
+    try {
+      const newTodo = req.body;
+      const todo = await TodoService.createTodo(newTodo);
+      res.status(201).send(todo);
+    } catch (err) {
+      res.status(500).send(err.message);
+    }
+  };
 }
 
-export default TodoController
+export default TodoController;

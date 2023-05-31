@@ -3,10 +3,8 @@ import pkg from 'bcryptjs';
 const { hashSync } = pkg;
 
 /**
- * Defines the user schema and exports the User model.
+ * User schema for defining the structure of the user object.
  */
-
-// Define the user schema
 const userSchema = new db.mongoose.Schema({
   name: {
     type: String,
@@ -27,7 +25,9 @@ const userSchema = new db.mongoose.Schema({
   }
 });
 
-// Create the User model using the user schema
+/**
+ * User model representing the collection of users.
+ */
 const User = db.mongoose.model('User', userSchema);
 
 export default User;

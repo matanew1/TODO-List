@@ -1,6 +1,8 @@
-import db from './database.js'
+import db from './database.js';
 
-// Define the schema
+/**
+ * Todo list schema for defining the structure of the todo list object.
+ */
 const todoListSchema = new db.mongoose.Schema({
   name: {
     type: String,
@@ -17,6 +19,9 @@ const todoListSchema = new db.mongoose.Schema({
   }]
 });
 
-const Todo = db.mongoose.model('Todo', todoListSchema)
+/**
+ * Todo model representing the collection of todo lists.
+ */
+const Todo = db.mongoose.model('Todo', todoListSchema);
 
 export default Todo;

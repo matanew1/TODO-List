@@ -5,10 +5,10 @@ import UserService from "../services/userService.js";
  */
 class UserController {
   /**
-   * Retrieves all users.
-   * @param {object} req - The request object.
-   * @param {object} res - The response object.
-   * @returns {void}
+   * Get all users.
+   * @param {Object} req - The request object.
+   * @param {Object} res - The response object.
+   * @returns {Promise<void>} - A promise that resolves with the list of users.
    */
   static getAllUsers = async (req, res) => {
     try {
@@ -20,10 +20,10 @@ class UserController {
   };
 
   /**
-   * Creates a new user.
-   * @param {object} req - The request object.
-   * @param {object} res - The response object.
-   * @returns {void}
+   * Create a new user.
+   * @param {Object} req - The request object.
+   * @param {Object} res - The response object.
+   * @returns {Promise<void>} - A promise that resolves with the created user.
    */
   static createUser = async (req, res) => {
     try {
@@ -34,29 +34,32 @@ class UserController {
       console.log(error.message);
       if (error.message === "Error: User already exists") {
         res.status(409).send(error.message);
-      } 
-      else {
+      } else {
         res.status(500).send(error.message);
       }
     }
   };
-  
 
-  static getUserIdByEmail = async (req, res) => {
+  /**
+   * Get user ID by email.
+   * @param {Object} req - The request object.
+   * @param {Object} res - The response object.
+   * @returns {Promise<void>} - A promise that resolves with the user ID.
+   */
+  static getUserByEmail = async (req, res) => {
     try {
-      const user = await UserService.getUserIdByEmail(req.params.email);
+      const user = await UserService.getUserByEmail(req.params.email);
       res.status(200).send(user);
     } catch (error) {
       res.status(500).send(error.message);
     }
   };
-  
 
   /**
-   * Deletes all users.
-   * @param {object} req - The request object.
-   * @param {object} res - The response object.
-   * @returns {void}
+   * Delete all users.
+   * @param {Object} req - The request object.
+   * @param {Object} res - The response object.
+   * @returns {Promise<void>} - A promise that resolves when all users are deleted.
    */
   static deleteAllUsers = async (req, res) => {
     try {
@@ -67,6 +70,12 @@ class UserController {
     }
   };
 
+  /**
+   * Update a user.
+   * @param {Object} req - The request object.
+   * @param {Object} res - The response object.
+   * @returns {Promise<void>} - A promise that resolves when the user is updated.
+   */
   static updateUser = async (req, res) => {
     try {
       const update = req.body;

@@ -1,4 +1,3 @@
-// write to json file
 import fs from "fs";
 import configuration from "../../config/config.js";
 
