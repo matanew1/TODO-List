@@ -8,6 +8,11 @@ const taskschema = new db.mongoose.Schema({
     },
     description: {
         type: String,
+    },
+    todo: {
+      type: db.mongoose.Schema.Types.ObjectId,
+      ref: 'Todo',
+      required: true
     }
 })
 

@@ -1,10 +1,10 @@
-import todoService from '../services/todoService.js'
+import TodoService from '../services/todoService.js'
 
-class todoController {
+class TodoController {
     static createTodo = async (req, res) => {
         try {
             const newTodo = req.body
-            const todo = await todoService.createTodo(newTodo);
+            const todo = await TodoService.createTodo(newTodo);
             res.status(201).send(todo)
         } catch (err) {
             res.status(500).send(err.message)
@@ -12,4 +12,4 @@ class todoController {
     };
 }
 
-export default todoController
+export default TodoController

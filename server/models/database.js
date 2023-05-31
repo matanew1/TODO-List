@@ -24,4 +24,6 @@ const mongoURI = configuration.uri;
 // Establish the connection to MongoDB
 connectToMongoDB(mongoURI);
 
+mongoose.set("strictPopulate", false); // Set the strictPopulate option globally for Mongoose
+
 export default mongoose;
