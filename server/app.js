@@ -6,6 +6,7 @@ const app = express();
 // Import middleware functions and user routes
 import middlewares from './middlewares/middlewares.js';
 import userRoutes from './routes/userRoute.js';
+import todoRoutes from './routes/todoRoute.js'
 
 /**
  * Sets up the Express application with middleware functions and routes.
@@ -15,6 +16,6 @@ import userRoutes from './routes/userRoute.js';
 app.use(middlewares);
 
 // Mount user routes to the application
-app.use('/', userRoutes);
+app.use('/', userRoutes, todoRoutes);
 
 export default app;
