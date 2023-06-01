@@ -17,6 +17,14 @@ class TaskService {
         }
     }
 
+    static async deleteTask(taskId) {
+        try {
+            await Task.findByIdAndDelete(taskId);
+        } catch (err) {
+            throw new Error(err);
+        }
+    }
+
     /**
      * Add a task to the corresponding todo.
      * @param {object} newTask - The new task object.

@@ -31,4 +31,10 @@ router.delete('/users', UserController.deleteAllUsers);
  */
 router.put('/users', UserController.updateUser);
 
+/**
+ * POST /login - login a user.
+ */
+router.post('/login', UserController.loginUser);
+
+
 export default router;

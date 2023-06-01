@@ -1,5 +1,7 @@
 import User from "../models/userSchema.js";
 import exceptions from "../config/exceptions.js";
+import pkg from 'bcryptjs';
+const { compareSync } = pkg
 
 /**
  * A class that provides user-related services.
@@ -48,6 +50,25 @@ class UserService {
     }
   }
 
+  static async loginUser(user) {
+    try {
+    const plain = user.password;
+    const userSaved = this.getUserByEmail((new User(user)).email);
+
+    if (!userSaved)
+      throw new Error("User Doesn't Exist");
+    console.log(`User ${userSaved} Exist`)
+
+    if (!this.#decreypt(plain, user.password))
+      throw new Error("Incorrect Password");
+    console.log(`Password ${plain} Is Correct`)
+
+    return await userSaved;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
   /**
    * Deletes all users from the database.
    * @returns {Promise<void|Error>} - A promise that resolves to void if all users were successfully deleted, or an Error if there was an error deleting the users.
@@ -71,6 +92,10 @@ class UserService {
     } catch (error) {
       throw new Error(error);
     }
+  }
+
+  static async #decreypt(plainPassword, hashPassword) {
+    return compareSync(plainPassword, hashPassword) 
   }
 }
 

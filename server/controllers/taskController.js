@@ -19,6 +19,15 @@ class TaskController {
       res.status(500).send(err.message);
     }
   };
+
+  static deleteTask = async (req, res) => {
+    try {
+        await TaskService.deleteTask(req.params._id)
+        res.status(200).send(`Task ${req.params._id} Was Deleted`)
+    } catch (err) {
+      res.status(500).send(err.message)
+    }
+  }
 }
 
 export default TaskController;
