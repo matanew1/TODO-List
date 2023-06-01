@@ -1,4 +1,5 @@
 import User from "../models/userSchema.js";
+import exceptions from "../config/exceptions.js";
 
 /**
  * A class that provides user-related services.
@@ -38,7 +39,7 @@ class UserService {
     try {
       const existUser = await UserService.getUserByEmail(newUser.email);
       if (existUser) 
-        throw new Error("User already exists");
+        throw new Error(exceptions.ALREADY_EXIST.message);
       
       const user = new User(newUser);
       return await user.save();

@@ -1,4 +1,5 @@
 import UserService from "../services/userService.js";
+import exceptions from "../config/exceptions.js";
 
 /**
  * Controller class for handling user-related operations.
@@ -32,10 +33,13 @@ class UserController {
       res.status(201).send(user);
     } catch (error) {
       console.log(error.message);
-      if (error.message === "Error: User already exists") {
-        res.status(409).send(error.message);
-      } else {
-        res.status(500).send(error.message);
+      switch (error.message) {
+        case `Error: ${exceptions.ALREADY_EXIST.message}`:
+          res.status(exceptions.ALREADY_EXIST.statusCode).send(error.message);
+          break;
+        default: 
+          res.status(500).send(error.message);
+          break;
       }
     }
   };
