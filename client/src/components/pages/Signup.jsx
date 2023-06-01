@@ -1,46 +1,46 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import './Login.css'
-import axios from 'axios'
+import axios from "axios";
 
-const Login = () => {
+const Signup = () => {
 
-    const navigate = useNavigate();
-    const [username, setUsername] = useState("");
+    const navigate = useNavigate()
+    const [name, setName] = useState("");
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
-
-    const handleLogin = (event) => {
+    
+    const handleSignup = (event) => {
         event.preventDefault();
 
-        const body = {
-            username,
+        const body ={
+            name,
             password,
             email
         }
 
-        axios.post('http://localhost:8080/login', JSON.stringify(body), {
-            headers: { 'Content-Type': 'application/json' }
+        console.log(body)
+
+        axios.post('http://localhost:8080/users', JSON.stringify(body), {
+            headers : {'Content-Type': 'application/json'}
         }).then((res) => {
-            if (res.data !== "") {
-                console.log('User logged in');
+            if (res.status === 201) {
+                console.log('User signup');
                 navigate('/profile', {state: {user: res.data}});
             } 
-            else {
-                alert("Invalid data");
+            else if (res.status === 409) {
+                alert(res.statusText);
             }
 
         }).catch((err) => {
             console.log(err)
-
         });
     }
 
-    return (
+    return(
         <div>
-            <form onSubmit={handleLogin}>
+            <form onSubmit={handleSignup}>
                 <label>Username:</label>
-                <input type="text" required value={username} onChange={(event) => setUsername(event.target.value)} />
+                <input type="text" required value={name} onChange={(event) => setName(event.target.value)} />
                 <br />
                 <label>Password:</label>
                 <input type="password" required value={password} onChange={(event) => setPassword(event.target.value)} />
@@ -54,4 +54,4 @@ const Login = () => {
     )
 }
 
-export default Login;
+export default Signup
