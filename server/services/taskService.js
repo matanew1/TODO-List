@@ -19,6 +19,11 @@ class TaskService {
 
     static async deleteTask(taskId) {
         try {
+            const task = await Task.findById(taskId)
+            const todo = await Todo.findById(task.todo)
+            var index = todo.tasks.indexOf(taskId)
+            todo.tasks.splice(index, 1)
+            await todo.save()
             await Task.findByIdAndDelete(taskId);
         } catch (err) {
             throw new Error(err);

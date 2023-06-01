@@ -22,8 +22,8 @@ class TaskController {
 
   static deleteTask = async (req, res) => {
     try {
-        await TaskService.deleteTask(req.params._id)
-        res.status(200).send(`Task ${req.params._id} Was Deleted`)
+        await TaskService.deleteTask(req.params.id)
+        res.status(200).send(`Task ${req.params.id} Was Deleted`)
     } catch (err) {
       res.status(500).send(err.message)
     }
