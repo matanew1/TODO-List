@@ -1,57 +1,110 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import { Button, TextField, Container, Typography } from '@mui/material';
+import axios from 'axios';
+import styles from '../styles/styles.jsx';
 
 const Signup = () => {
+  const navigate = useNavigate();
+  const [name, setName] = useState('');
+  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
+  const [error, setError] = useState('');
 
-    const navigate = useNavigate()
-    const [name, setName] = useState("");
-    const [password, setPassword] = useState("");
-    const [email, setEmail] = useState("");
-    
-    const handleSignup = (event) => {
-        event.preventDefault();
+  const handleSignup = (event) => {
+    event.preventDefault();
 
-        const body ={
-            name,
-            password,
-            email
+    const body = {
+      name,
+      password,
+      email,
+    };
+
+    axios
+      .post('http://localhost:8080/users', JSON.stringify(body), {
+        headers: { 'Content-Type': 'application/json' },
+      })
+      .then((res) => {
+        if (res.status === 201) {
+          console.log('User signup');
+          navigate('/profile', { state: { user: res.data } });
         }
+      })
+      .catch((err) => {
+        if (err.response.status === 409) {
+          setError('User already exists');
+        }
+      });
+  };
 
-        console.log(body)
+  return (
+    <Container maxWidth="sm" style={styles.container}>
+      <Typography variant="h2" color="primary" style={styles.heading}>
+        Sign Up
+      </Typography>
+      <form onSubmit={handleSignup}>
+        <TextField
+          label="Username"
+          type="text"
+          required
+          value={name}
+          onChange={(event) => setName(event.target.value)}
+          fullWidth
+          margin="normal"
+          style={styles.textField}
+          InputLabelProps={{
+            style: styles.inputLabel,
+          }}
+          InputProps={{
+            style: styles.input,
+          }}
+        />
+        <TextField
+          label="Password"
+          type="password"
+          required
+          value={password}
+          onChange={(event) => setPassword(event.target.value)}
+          fullWidth
+          margin="normal"
+          style={styles.textField}
+          InputLabelProps={{
+            style: styles.inputLabel,
+          }}
+          InputProps={{
+            style: styles.input,
+          }}
+        />
+        <TextField
+          label="Email"
+          type="email"
+          required
+          value={email}
+          onChange={(event) => setEmail(event.target.value)}
+          fullWidth
+          margin="normal"
+          style={styles.textField}
+          InputLabelProps={{
+            style: styles.inputLabel,
+          }}
+          InputProps={{
+            style: styles.input,
+          }}
+        />
+        <Button variant="contained" color="secondary" style={styles.button}>
+          <Link to={'/'}>Go Back</Link>
+        </Button>
+        <Button type="submit" variant="contained" color="primary" style={styles.button}>
+          Submit
+        </Button>
+        {error ? (
+          <Typography variant="h6" color="error" style={styles.heading}>
+            Error: {error}
+          </Typography>
+        ) : null}
+      </form>
+    </Container>
+  );
+};
 
-        axios.post('http://localhost:8080/users', JSON.stringify(body), {
-            headers : {'Content-Type': 'application/json'}
-        }).then((res) => {
-            if (res.status === 201) {
-                console.log('User signup');
-                navigate('/profile', {state: {user: res.data}});
-            } 
-            else if (res.status === 409) {
-                alert(res.statusText);
-            }
-
-        }).catch((err) => {
-            console.log(err)
-        });
-    }
-
-    return(
-        <div>
-            <form onSubmit={handleSignup}>
-                <label>Username:</label>
-                <input type="text" required value={name} onChange={(event) => setName(event.target.value)} />
-                <br />
-                <label>Password:</label>
-                <input type="password" required value={password} onChange={(event) => setPassword(event.target.value)} />
-                <br />
-                <label>Email:</label>
-                <input type="email" required value={email} onChange={(event) => setEmail(event.target.value)} />
-                <br />
-                <button type="submit">Submit</button>
-            </form>
-        </div >
-    )
-}
-
-export default Signup
+export default Signup;

@@ -56,7 +56,7 @@ class UserService {
     const userSaved = this.getUserByEmail((new User(user)).email);
 
     if (!userSaved)
-      throw new Error("User Doesn't Exist");
+      throw new Error("User does not exist");
     console.log(`User ${userSaved} Exist`)
 
     if (!this.#decreypt(plain, user.password))

@@ -53,9 +53,15 @@ class UserController {
     static loginUser = async (req, res) => {
       try {
         const user = await UserService.loginUser(req.body);
-        res.status(200).send(user);
+        if(!user)
+        {
+          res.status(404).send("User not found.");
+        }
+        else 
+        {
+          res.status(200).send(user);
+        }
       } catch (error) {
-        console.log(error.message);
         res.status(500).send(error.message)
       }
     };
