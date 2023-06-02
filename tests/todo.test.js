@@ -1,8 +1,8 @@
 import chai from "chai";
 import chaiHttp from "chai-http";
-import app from "../app.js";
+import app from '../server/app.js';
 import parseJSONFromFile from "./utils/helper.js";
-import db from '../models/database.js';
+import db from '../server/models/database.js'
 
 const { expect } = chai;
 chai.use(chaiHttp);

@@ -1,5 +1,5 @@
 import fs from "fs";
-import configuration from "../../config/config.js";
+import configuration from "../../server/config/config.js";
 
 /**
  * Parses a JSON file and returns the parsed object.
