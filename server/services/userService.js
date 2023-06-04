@@ -53,14 +53,15 @@ class UserService {
   static async loginUser(user) {
     try {
     const plain = user.password;
-    const userSaved = this.getUserByEmail((new User(user)).email);
+    const userEntity = new User(user);
+    const userSaved = await this.getUserByEmail(userEntity.email);
 
     if (!userSaved)
-      throw new Error("User does not exist");
-    console.log(`User ${userSaved} Exist`)
+      throw new Error(exceptions.USER_DOESNT_EXIST.message);
+    console.log(exceptions.USER_DOESNT_EXIST.message)
 
-    if (!this.#decreypt(plain, user.password))
-      throw new Error("Incorrect Password");
+    if (!await this.#decreypt(plain, userSaved.password))
+      throw new Error(exceptions.INVALID_USER_INPUT.message);
     console.log(`Password ${plain} Is Correct`)
 
     return await userSaved;

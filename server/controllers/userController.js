@@ -53,16 +53,18 @@ class UserController {
     static loginUser = async (req, res) => {
       try {
         const user = await UserService.loginUser(req.body);
-        if(!user)
-        {
+        if(!user) {
           res.status(404).send("User not found.");
         }
-        else 
-        {
+        else {
           res.status(200).send(user);
         }
       } catch (error) {
-        res.status(500).send(error.message)
+        if(error.message === `Error: ${exceptions.INVALID_USER_INPUT.message}`) {
+          res.status(exceptions.INVALID_USER_INPUT.statusCode).send(error.message);
+        } else if (error.message === `Error: ${exceptions.USER_DOESNT_EXIST.message}`) {
+          res.status(404).send(error.message === `Error: ${exceptions.USER_DOESNT_EXIST.message}`)
+        }
       }
     };
 

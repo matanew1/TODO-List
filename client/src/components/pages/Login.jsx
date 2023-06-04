@@ -34,6 +34,10 @@ const Login = () => {
       .catch((err) => {
         if (err.response.status === 404) {
           setError('User not found');
+        } else if (err.response.status === 400) {
+          setError('User input is incorrect');
+        } else {
+          setError('Server error');
         }
       });
   };

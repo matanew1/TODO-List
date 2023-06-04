@@ -33,6 +33,8 @@ const Signup = () => {
       .catch((err) => {
         if (err.response.status === 409) {
           setError('User already exists');
+        } else {
+          setError('Something went wrong');
         }
       });
   };
