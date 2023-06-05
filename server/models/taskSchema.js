@@ -11,6 +11,10 @@ const taskschema = new db.mongoose.Schema({
   description: {
     type: String
   },
+  status: {
+    type: Boolean,
+    default: false
+  },
   todo: {
     type: db.mongoose.Schema.Types.ObjectId,
     ref: 'Todo',

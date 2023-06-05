@@ -18,11 +18,8 @@ class TodoService {
 
   static async getAllTasks(todoId) {
     try {
-      const todo = await Todo.findById(todoId).populate('tasks').then(task => console.log(task)).catch(err => console.log(err))
-
-      console.log(todo)
-      const tasks = todo.tasks
-
+      const todo = await Todo.findById(todoId)
+      return await todo.populate('tasks')
     } catch (err) {
       throw new Error(err);
     }

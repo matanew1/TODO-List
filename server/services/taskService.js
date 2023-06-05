@@ -7,8 +7,9 @@ class TaskService {
      * @param {object} newTask - The new task object.
      * @returns {Promise<object>} - The created task.
      */
-    static async createTask(newTask) {
+    static async createTask(newTask, todoId) {
         try {
+            newTask.todo = todoId
             const task = new Task(newTask);
             await TaskService.#addTaskIntoTodo(newTask, task);
             return await task.save();
