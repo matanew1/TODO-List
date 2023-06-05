@@ -19,6 +19,16 @@ class TodoController {
       res.status(500).send(err.message);
     }
   };
+
+  static getAllTasks = async (req, res) => {
+    try {
+      const tasks = await TodoService.getAllTasks(req.params._id)
+      console.log(tasks)
+      res.status(200).send(tasks)
+    } catch (err) {
+      res.status(500).send(err.message)
+    }
+  }
 }
 
 export default TodoController;
