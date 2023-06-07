@@ -11,12 +11,15 @@ services:
       context: server
       dockerfile: Dockerfile
     container_name: server
+    restart: always
     ports:
       - '8080:8080'
-    links:
-      - database:mongo
     depends_on:
       - database
+    links:
+      - database
+    environment:
+      - DOCKER=true
 
   client:
     build:

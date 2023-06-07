@@ -7,8 +7,11 @@ WORKDIR /app
 # Copy the package.json and package-lock.json files to the container
 COPY package*.json ./
 
-# Install dependencies
-RUN npm ci --only=production
+# Install npm and dependencies
+RUN npm install
+
+# Install Material-UI library
+RUN npm install @mui/material @emotion/react @emotion/styled
 
 # Copy the rest of the project files to the container
 COPY . .
