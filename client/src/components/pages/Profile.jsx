@@ -13,7 +13,9 @@ import {
   TableHead,
   TableRow,
   Paper,
+  IconButton,
 } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
 import styles from "../styles/styles.jsx";
 import axios from "axios";
 
@@ -29,9 +31,13 @@ const Profile = () => {
   const changeStatus = (task) => {
     task.status = !task.status;
     axios
-      .put(`http://localhost:8080/todo/tasks/${task._id}`, JSON.stringify(task), {
-        headers: { "Content-Type": "application/json" },
-      })
+      .put(
+        `http://localhost:8080/todo/tasks/${task._id}`,
+        JSON.stringify(task),
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      )
       .then((res) => {
         if (res.status === 200) {
           console.log(res);
@@ -62,12 +68,21 @@ const Profile = () => {
     setDescription("");
   }, []);
 
-  useEffect(() => {
-    fetchAllTasks();
-    clearForm();
-  }, [clearForm, fetchAllTasks, todo, user]);
+  const removeTask = (taskId) => {
+    axios
+      .delete(`http://localhost:8080/todo/tasks/${taskId}`)
+      .then((res) => {
+        if (res.status === 200) {
+          fetchAllTasks();
+          alert("TASK REMOVED");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
-  const createTask = (event) => { 
+  const createTask = (event) => {
     event.preventDefault();
     const taskBody = {
       name,
@@ -75,7 +90,11 @@ const Profile = () => {
       status: false,
       todo: todo?._id,
     };
-    if( taskBody.name !== "" && taskBody.description !== "" && taskBody.todo !== "") {
+    if (
+      taskBody.name !== "" &&
+      taskBody.description !== "" &&
+      taskBody.todo !== ""
+    ) {
       axios
         .post(`http://localhost:8080/todo/tasks`, JSON.stringify(taskBody), {
           headers: { "Content-Type": "application/json" },
@@ -90,17 +109,29 @@ const Profile = () => {
     }
   };
 
-  
+  useEffect(() => {
+    fetchAllTasks();
+    clearForm();
+  }, [clearForm, fetchAllTasks, todo, user]);
+
   return (
     <Container maxWidth="md" style={styles.container}>
-      <Typography variant="h2" color="indigo" align="center" style={styles.heading}>
+      <Typography
+        variant="h2"
+        color="indigo"
+        align="center"
+        style={styles.heading}
+      >
         Welcome, {user.name}!
       </Typography>
       <Typography variant="h4" color="indigo" align="left">
         Here is your TODO list:
-      </Typography><br /><br /><br />
-      <Grid container spacing={10}>
+      </Typography>
+      <br />
+      <br />
+      <Grid container spacing={2}>
         <Grid item xs={12} md={6}>
+          <br />
           <TableContainer component={Paper}>
             <Table sx={{ minWidth: 300 }} aria-label="simple table">
               <TableHead style={{ backgroundColor: "#a5b5f5" }}>
@@ -108,6 +139,7 @@ const Profile = () => {
                   <TableCell align="center">Title</TableCell>
                   <TableCell align="center">Description</TableCell>
                   <TableCell align="center">Status</TableCell>
+                  <TableCell align="center">Remove</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -130,16 +162,27 @@ const Profile = () => {
                         {task.status ? "Completed" : "Not Done"}
                       </Button>
                     </TableCell>
+                    <TableCell align="center">
+                      <IconButton
+                        aria-label="delete"
+                        onClick={() => removeTask(task._id)}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
             </Table>
           </TableContainer>
-          <br /><br /><br />
         </Grid>
         <Grid item xs={12} md={6}>
           <form onSubmit={createTask}>
-            <Typography variant="h3" color="indigo" style={{ fontSize: "30px" }}>
+            <Typography
+              variant="h3"
+              color="indigo"
+              style={{ fontSize: "30px" }}
+            >
               <strong>Add new task todo:</strong>
             </Typography>
             <TextField
@@ -148,7 +191,11 @@ const Profile = () => {
               label="Task Name"
               variant="filled"
               value={name}
-              style={{ backgroundColor: "#a5b5f5", borderRadius: "5px", marginBottom: "10px" }}
+              style={{
+                backgroundColor: "#a5b5f5",
+                borderRadius: "5px",
+                marginBottom: "10px",
+              }}
               fullWidth
             />
             <TextField
@@ -157,12 +204,18 @@ const Profile = () => {
               label="Task Description"
               variant="filled"
               value={description}
-              style={{ backgroundColor: "#a5b5f5", borderRadius: "5px", marginBottom: "10px" }}
+              style={{
+                backgroundColor: "#a5b5f5",
+                borderRadius: "5px",
+                marginBottom: "10px",
+              }}
               fullWidth
             />
             <Button variant="contained" color="primary" type="submit" fullWidth>
               Submit
-            </Button><br /><br />
+            </Button>
+            <br />
+            <br />
             <Button variant="contained" color="primary" fullWidth>
               <Link to={"/"} style={styles.link}>
                 Go Back
