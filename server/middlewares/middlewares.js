@@ -1,5 +1,6 @@
 import { json, urlencoded } from 'express';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 
 /**
  * Middleware functions for request body parsing and CORS handling.
@@ -8,7 +9,8 @@ import cors from 'cors';
 const middlewares = [
   json(),
   urlencoded({ extended: true }),
-  cors()
+  cors(),
+  cookieParser(),
 ];
 
 export default middlewares;

@@ -1,7 +1,9 @@
 import { Router } from 'express';
 const router = Router();
 import UserController from '../controllers/userController.js';
-
+import configuration from '../config/config.js';
+import cors from 'cors';
+const corsOptions = configuration.corsOptions;
 /**
  * Defines the routes for user-related operations.
  */
@@ -9,32 +11,32 @@ import UserController from '../controllers/userController.js';
 /**
  * GET /users - Retrieve all users.
  */
-router.get('/users', UserController.getAllUsers);
+router.get('/users', cors(corsOptions), UserController.getAllUsers);
 
 /**
  * GET /users/:email - Retrieve a user by email.
  */
-router.get('/users/:email', UserController.getUserByEmail);
+router.get('/users/:email', cors(corsOptions), UserController.getUserByEmail);
 
 /**
  * POST /users - Create a new user.
  */
-router.post('/users', UserController.createUser);
+router.post('/users', cors(corsOptions), UserController.createUser);
 
 /**
  * DELETE /users - Delete all users.
  */
-router.delete('/users', UserController.deleteAllUsers);
+router.delete('/users', cors(corsOptions), UserController.deleteAllUsers);
 
 /**
  * PUT /users - Update a user.
  */
-router.put('/users', UserController.updateUser);
+router.put('/users', cors(corsOptions), UserController.updateUser);
 
 /**
  * POST /login - login a user.
  */
-router.post('/login', UserController.loginUser);
+router.post('/login', cors(corsOptions), UserController.loginUser);
 
 
 export default router;

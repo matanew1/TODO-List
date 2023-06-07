@@ -3,6 +3,7 @@
     "bcryptjs": "^2.4.3",
     "chai": "^4.3.7",
     "chai-http": "^4.3.0",
+    "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "mongoose": "^7.2.1",
@@ -16,7 +17,7 @@
     "start": "nodemon server.js",
     "test:user": "mocha ./test/user.test.js",
     "test:todo": "mocha ./test/todo.test.js"
-  },  
+  },
   "name": "server",
   "version": "1.0.0",
   "main": "server.js",
