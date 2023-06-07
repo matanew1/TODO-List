@@ -14,32 +14,48 @@ const Login = () => {
   const handleLogin = (event) => {
     event.preventDefault();
 
-    const body = {
-      name,
-      password,
-      email,
-    };
+    const loginUser = () => {
+      const body = {
+        name,
+        password,
+        email,
+      };
+  
+      axios
+        .post('http://localhost:8080/login', JSON.stringify(body), {
+          headers: { 'Content-Type': 'application/json' },
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            console.log('User logged in');
+            getTodoByUserId(res.data);
+          }
+        })
+        .catch((err) => {
+          if (err.response.status === 404) {
+            setError('User not found');
+          } else if (err.response.status === 400) {
+            setError('User input is incorrect');
+          } else {
+            setError('Server error');
+          }
+        });
+    }
 
-    axios
-      .post('http://localhost:8080/login', JSON.stringify(body), {
-        headers: { 'Content-Type': 'application/json' },
-      })
-      .then((res) => {
-        console.log(res);
-        if (res.status === 200) {
-          console.log('User logged in');
-          navigate('/profile', { state: { user: res.data } });
-        }
-      })
-      .catch((err) => {
-        if (err.response.status === 404) {
-          setError('User not found');
-        } else if (err.response.status === 400) {
-          setError('User input is incorrect');
-        } else {
-          setError('Server error');
-        }
-      });
+    const getTodoByUserId = (user) => {
+      axios
+        .get(`http://localhost:8080/todo/${user._id}`)
+        .then((res) => {
+          if (res.status === 200) {
+            navigate("/profile", { state: { user: user, todo: res.data} });
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+        });
+    }
+
+    loginUser();
   };
 
   return (

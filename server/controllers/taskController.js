@@ -12,9 +12,8 @@ class TaskController {
    */
   static createTask = async (req, res) => {
     try {
-      const todoId = req.params._id
       const newTask = req.body;
-      const task = await TaskService.createTask(newTask, todoId);
+      const task = await TaskService.createTask(newTask);
       res.status(201).send(task);
     } catch (err) {
       res.status(500).send(err.message);

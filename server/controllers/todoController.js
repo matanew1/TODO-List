@@ -10,6 +10,15 @@ class TodoController {
    * @param {Object} res - The response object.
    * @returns {Promise<void>} - A promise that resolves when the todo is successfully created.
    */
+
+  static getTodoByUserId = async (req, res) => {
+    try {
+      const todo = await TodoService.getTodoByUserId(req.params._id);
+      return res.status(200).send(todo);
+    } catch (error) {
+      res.status(500).send(err.message);
+    }
+  };
   static createTodo = async (req, res) => {
     try {
       const newTodo = req.body;
@@ -25,7 +34,7 @@ class TodoController {
       const tasks = await TodoService.getAllTasks(req.params._id)
       res.status(200).send(tasks)
     } catch (err) {
-      res.status(500).send(err.message)
+      res.status(500).send(err)
     }
   }
 }

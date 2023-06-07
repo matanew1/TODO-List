@@ -1,14 +1,10 @@
 import React, { useState } from "react";
-import { useNavigate, Link, useLocation } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { Button, TextField, Container, Typography } from "@mui/material";
 import axios from "axios";
 import styles from "../styles/styles.jsx";
-import queryString from "query-string";
 
 const Signup = () => {
-  const location = useLocation();
-  const queryParams = queryString.parse(location.search);
-  console.log(queryParams);
 
   const navigate = useNavigate();
   const [name, setName] = useState("");
@@ -19,20 +15,49 @@ const Signup = () => {
   const handleSignup = (event) => {
     event.preventDefault();
 
-    const body = {
-      name,
-      password,
-      email,
-    };
+    const createUser = () => {
+      const body = {
+        name,
+        password,
+        email,
+      };
+  
+      axios
+        .post("http://localhost:8080/users", JSON.stringify(body), {
+          headers: { "Content-Type": "application/json" },
+        })
+        .then((res) => {
+          if (res.status === 201) {
+            console.log("User signup");
+            createTodo(res.data);
+          }
+        })
+        .catch((err) => {
+          if (err.response.status === 409) {
+            setError("User already exists");
+          } else {
+            setError("Something went wrong");
+          }
+        });
+    }
 
-    axios
-      .post("http://localhost:8080/users", JSON.stringify(body), {
+    const createTodo = (user) => {
+      console.log('data',user)
+      const todoBody = {
+        name: user.name,
+        owner: user._id,
+        tasks: [],
+      };
+
+      console.log(todoBody);
+      axios
+      .post("http://localhost:8080/todo", JSON.stringify(todoBody), {
         headers: { "Content-Type": "application/json" },
       })
       .then((res) => {
         if (res.status === 201) {
           console.log("User signup");
-          navigate("/profile", { state: { user: res.data } });
+          navigate("/profile", { state: { user: user, todo: res.data} });
         }
       })
       .catch((err) => {
@@ -42,6 +67,9 @@ const Signup = () => {
           setError("Something went wrong");
         }
       });
+    }
+
+    createUser();
   };
 
   return (

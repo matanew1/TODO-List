@@ -17,12 +17,19 @@ class TodoService {
     }
   }
 
+  static async getTodoByUserId(userId) {
+    try {
+      return await Todo.findOne({ owner: userId });
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
 
   static async getAllTasks(userId) {
     try {
-      const todo = await Todo.find({owner: userId});
-      console.log(todo)
-      return await todo.populate('tasks')
+      const todo = await Todo.findOne( { owner: userId} );
+      return await todo.populate('tasks');
     } catch (err) {
       throw new Error(err);
     }
