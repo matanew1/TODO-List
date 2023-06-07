@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "lerna run start --stream",
+    "build": "lerna run build",
     "test": "mocha tests/**/*.js"
   },
   "author": "",
