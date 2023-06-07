@@ -10,6 +10,19 @@ class TaskController {
    * @param {Object} res - The response object.
    * @returns {Promise<void>} - A promise that resolves when the task is successfully created.
    */
+
+  static updateTask = async (req, res) => {
+    try {
+      const taskId = req.params.id;
+      const updatedTask = await TaskService.updateTask(taskId, req.body);
+      if (updatedTask) {
+        res.status(200).send(`Task ${taskId} Was Updated`);
+      }
+    } catch (error) {
+      res.status(500).send(error.message);
+    }
+  };
+
   static createTask = async (req, res) => {
     try {
       const newTask = req.body;

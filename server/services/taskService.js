@@ -7,6 +7,17 @@ class TaskService {
      * @param {object} newTask - The new task object.
      * @returns {Promise<object>} - The created task.
      */
+
+    static async updateTask(taskId, updateTask) {
+        try {
+            const task = await Task.findById(taskId);
+            Object.assign(task, updateTask);                      
+            return await task.save();
+        } catch (error) {
+            throw new Error(error);
+        }
+    };
+    
     static async createTask(newTask) {
         try {
             const task = new Task(newTask);

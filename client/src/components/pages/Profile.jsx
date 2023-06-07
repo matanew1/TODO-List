@@ -23,15 +23,21 @@ const Profile = () => {
   const [description, setDescription] = useState("");
 
   const changeStatus = (task) => {
-    console.log(task);
     task.status = !task.status;
-    // axios.put('http://')
-    setTodos({ ...todos });
+    axios.put(`http://localhost:8080/todo/tasks/${task._id}`, JSON.stringify(task), {
+      headers: { 'Content-Type': 'application/json' },
+    }).then((res) => {
+      if (res.status === 200) {
+        console.log(res);
+        fetchAllTasks();
+      }
+    }).catch((err) => {
+      console.log(err);
+    });
   };
 
   const fetchAllTasks = useCallback(() => {
-    axios
-      .get(`http://localhost:8080/todo/tasks/${user._id}`)
+    axios.get(`http://localhost:8080/todo/tasks/${user._id}`)
       .then((res) => {
         if (res.status === 200) {
           console.log("Fetch All Todos");
@@ -75,13 +81,12 @@ const Profile = () => {
     });
   };
 
-
   return (
     <Container maxWidth="md" style={styles.container}>
-      <Typography variant="h2" color="primary" align="center" style={styles.heading}>
+      <Typography variant="h2" color="indigo" align="center" style={styles.heading}>
         Welcome, {user.name}!
       </Typography>
-      <Typography variant="h4" color="primary" align="left">
+      <Typography variant="h4" color="indigo" align="left">
         Here is your TODO list:
       </Typography>
       <TableContainer component={Paper}>
@@ -121,13 +126,13 @@ const Profile = () => {
         </Table>
       </TableContainer>
       <br />
-      <Grid container sx={{minHeight: "150px", gap: "3px"}}>
+      <Grid container sx={{ minHeight: "150px", gap: "3px" }}>
         <form onSubmit={createTask}>
-          <Typography variant="h7" color="indigo">
+          <Typography variant="h7" color="indigo" style={{fontSize: "15px"}}>
             <strong>Add new task todo:</strong>
           </Typography>
           &nbsp; &nbsp;
-          <TextField 
+          <TextField
             onChange={(event) => setName(event.target.value)}
             id="name"
             label="Task Name"
@@ -142,7 +147,7 @@ const Profile = () => {
             label="Task Description"
             variant="filled"
             value={description}
-            style={{ backgroundColor: "#a5b5f5", borderRadius: "5px"  }}
+            style={{ backgroundColor: "#a5b5f5", borderRadius: "5px" }}
           />
           &nbsp; &nbsp;
           <Button sx={{ minHeight: "55px", minWidth: "55px" }} variant="contained" color="primary" type="submit">

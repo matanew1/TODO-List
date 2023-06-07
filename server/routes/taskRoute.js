@@ -7,6 +7,8 @@ import TaskController from '../controllers/taskController.js';
  */
 router.post('/todo/tasks', TaskController.createTask);
 
+router.put('/todo/tasks/:id', TaskController.updateTask);
+
 router.delete('/todo/tasks/:id', TaskController.deleteTask);
 
 export default router;
