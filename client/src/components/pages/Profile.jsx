@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useLocation, Link } from "react-router-dom";
 import { Typography, Container, Button, TextField, Grid } from "@mui/material";
 import {
@@ -26,12 +26,7 @@ const Profile = () => {
     setTodos({ ...todos });
   };
 
-  useEffect(() => {
-    getTodos();
-    updateTodos();
-  }, []);
-
-  const getTodos = () => {
+  const getTodos = useCallback(() => {
     axios
       .get(`http://localhost:8080/todo/tasks/${user._id}`)
       .then((res) => {
@@ -44,7 +39,12 @@ const Profile = () => {
       .catch((err) => {
         console.log("Something went wrong");
       });
-  };
+  },[user._id]);
+
+  useEffect(() => {
+    getTodos();
+    updateTodos();
+  }, [getTodos]);
 
   const createTask = (name, description) => {
     const taskBody = {

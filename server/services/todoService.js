@@ -20,7 +20,8 @@ class TodoService {
 
   static async getAllTasks(userId) {
     try {
-      const todo = await Todo.find({owner: ObjectId(userId)})
+      const todo = await Todo.find({owner: userId});
+      console.log(todo)
       return await todo.populate('tasks')
     } catch (err) {
       throw new Error(err);
