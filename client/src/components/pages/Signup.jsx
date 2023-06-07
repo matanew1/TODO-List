@@ -1,15 +1,20 @@
-import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import { Button, TextField, Container, Typography } from '@mui/material';
-import axios from 'axios';
-import styles from '../styles/styles.jsx';
+import React, { useState } from "react";
+import { useNavigate, Link, useLocation } from "react-router-dom";
+import { Button, TextField, Container, Typography } from "@mui/material";
+import axios from "axios";
+import styles from "../styles/styles.jsx";
+import queryString from "query-string";
 
 const Signup = () => {
+  const location = useLocation();
+  const queryParams = queryString.parse(location.search);
+  console.log(queryParams);
+
   const navigate = useNavigate();
-  const [name, setName] = useState('');
-  const [password, setPassword] = useState('');
-  const [email, setEmail] = useState('');
-  const [error, setError] = useState('');
+  const [name, setName] = useState("");
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [error, setError] = useState("");
 
   const handleSignup = (event) => {
     event.preventDefault();
@@ -21,20 +26,20 @@ const Signup = () => {
     };
 
     axios
-      .post('http://localhost:8080/users', JSON.stringify(body), {
-        headers: { 'Content-Type': 'application/json' },
+      .post("http://localhost:8080/users", JSON.stringify(body), {
+        headers: { "Content-Type": "application/json" },
       })
       .then((res) => {
         if (res.status === 201) {
-          console.log('User signup');
-          navigate('/profile', { state: { user: res.data } });
+          console.log("User signup");
+          navigate("/profile", { state: { user: res.data } });
         }
       })
       .catch((err) => {
         if (err.response.status === 409) {
-          setError('User already exists');
+          setError("User already exists");
         } else {
-          setError('Something went wrong');
+          setError("Something went wrong");
         }
       });
   };
@@ -94,9 +99,14 @@ const Signup = () => {
           }}
         />
         <Button variant="contained" color="secondary" style={styles.button}>
-          <Link to={'/'}>Go Back</Link>
+          <Link to={"/"}>Go Back</Link>
         </Button>
-        <Button type="submit" variant="contained" color="primary" style={styles.button}>
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          style={styles.button}
+        >
           Submit
         </Button>
         {error ? (

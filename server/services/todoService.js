@@ -1,4 +1,6 @@
 import Todo from '../models/todoSchema.js';
+import { ObjectId } from 'mongodb'
+
 
 class TodoService {
   /**
@@ -16,9 +18,9 @@ class TodoService {
   }
 
 
-  static async getAllTasks(todoId) {
+  static async getAllTasks(userId) {
     try {
-      const todo = await Todo.findById(todoId)
+      const todo = await Todo.find({owner: ObjectId(userId)})
       return await todo.populate('tasks')
     } catch (err) {
       throw new Error(err);

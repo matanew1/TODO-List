@@ -33,7 +33,7 @@ const Profile = () => {
 
   const getTodos = () => {
     axios
-      .get(`http://localhost:8080/todo/tasks/64785b773e20c471d6f75d3a`)
+      .get(`http://localhost:8080/todo/tasks/${user._id}`)
       .then((res) => {
         if (res.status === 200) {
           console.log("Fetch All Todos");
