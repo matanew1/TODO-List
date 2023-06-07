@@ -67,30 +67,30 @@ const Profile = () => {
     clearForm();
   }, [clearForm, fetchAllTasks, todo, user]);
 
-  const createTask = (event) => {
+  const createTask = (event) => { 
     event.preventDefault();
-
     const taskBody = {
       name,
       description,
       status: false,
       todo: todo?._id,
     };
-    console.log("taskBody", taskBody);
-
-    axios
-      .post(`http://localhost:8080/todo/tasks`, JSON.stringify(taskBody), {
-        headers: { "Content-Type": "application/json" },
-      })
-      .then((res) => {
-        if (res.status === 201) {
-          console.log("Task was added successfully");
-          fetchAllTasks();
-          clearForm();
-        } else console.log("Task was failed");
-      });
+    if( taskBody.name !== "" && taskBody.description !== "" && taskBody.todo !== "") {
+      axios
+        .post(`http://localhost:8080/todo/tasks`, JSON.stringify(taskBody), {
+          headers: { "Content-Type": "application/json" },
+        })
+        .then((res) => {
+          if (res.status === 201) {
+            console.log("Task was added successfully");
+            fetchAllTasks();
+            clearForm();
+          } else console.log("Task was failed");
+        });
+    }
   };
 
+  
   return (
     <Container maxWidth="md" style={styles.container}>
       <Typography variant="h2" color="indigo" align="center" style={styles.heading}>
@@ -98,7 +98,7 @@ const Profile = () => {
       </Typography>
       <Typography variant="h4" color="indigo" align="left">
         Here is your TODO list:
-      </Typography>
+      </Typography><br /><br /><br />
       <Grid container spacing={10}>
         <Grid item xs={12} md={6}>
           <TableContainer component={Paper}>
@@ -135,6 +135,7 @@ const Profile = () => {
               </TableBody>
             </Table>
           </TableContainer>
+          <br /><br /><br />
         </Grid>
         <Grid item xs={12} md={6}>
           <form onSubmit={createTask}>
@@ -161,7 +162,7 @@ const Profile = () => {
             />
             <Button variant="contained" color="primary" type="submit" fullWidth>
               Submit
-            </Button>
+            </Button><br /><br />
             <Button variant="contained" color="primary" fullWidth>
               <Link to={"/"} style={styles.link}>
                 Go Back
