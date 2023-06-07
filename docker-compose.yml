@@ -1,5 +1,11 @@
 version: '3'
 services:
+  database:
+    image: mongo:latest
+    container_name: database
+    ports:
+      - '27017:27017'
+
   server:
     build:
       context: server
@@ -7,6 +13,10 @@ services:
     container_name: server
     ports:
       - '8080:8080'
+    links:
+      - database:mongo
+    depends_on:
+      - database
 
   client:
     build:

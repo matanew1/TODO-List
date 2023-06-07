@@ -8,10 +8,13 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install the project dependencies
-RUN npm install
+RUN npm ci
 
 # Copy the rest of the project files to the container
 COPY . .
+
+# Set environment variables
+ENV NODE_ENV=production
 
 # Expose the port on which your application listens
 EXPOSE 8080
