@@ -22,8 +22,7 @@ const Signup = () => {
       };
 
       axios
-        .post("http://localhost:8080/users", JSON.stringify(body), 
-        {
+        .post("http://localhost:8080/users", JSON.stringify(body), {
           withCredentials: true, // Include cookies in the request
           headers: { "Content-Type": "application/json" },
         })
@@ -34,8 +33,8 @@ const Signup = () => {
           }
         })
         .catch((err) => {
-          console.log(err);
-          if (err.code === "ERR_NETWORK") {
+          console.log(err.message);
+          if (err.response.status === 409) {
             setError("User already exists");
           } else {
             setError("Something went wrong");
@@ -59,13 +58,13 @@ const Signup = () => {
         })
         .then((res) => {
           if (res.status === 201) {
-            console.log("User signup");
+            console.log("Created user");
             navigate("/profile", { state: { user: user, todo: res.data } });
           }
         })
         .catch((err) => {
-          console.log(err);
-          if (err.code === "ERR_NETWORK") {
+          console.log(err.message);
+          if (err.response.status === 409) {
             setError("User already exists");
           } else {
             setError("Something went wrong");

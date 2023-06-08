@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import { Button, TextField, Container, Typography } from '@mui/material';
-import axios from 'axios';
-import styles from '../styles/styles.jsx';
+import React, { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import { Button, TextField, Container, Typography } from "@mui/material";
+import axios from "axios";
+import styles from "../styles/styles.jsx";
 
 const Login = () => {
   const navigate = useNavigate();
-  const [name, setName] = useState('');
-  const [password, setPassword] = useState('');
-  const [email, setEmail] = useState('');
-  const [error, setError] = useState('');
+  const [name, setName] = useState("");
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [error, setError] = useState("");
 
   const handleLogin = (event) => {
     event.preventDefault();
@@ -20,40 +20,41 @@ const Login = () => {
         password,
         email,
       };
-  
+
       axios
-        .post('http://localhost:8080/login', JSON.stringify(body), {
-          headers: { 'Content-Type': 'application/json' },
+        .post("http://localhost:8080/login", JSON.stringify(body), {
+          withCredentials: true, // Include cookies in the request
+          headers: { "Content-Type": "application/json" },
         })
         .then((res) => {
           if (res.status === 200) {
-            console.log('User logged in');
+            console.log("User logged in");
             getTodoByUserId(res.data);
           }
         })
         .catch((err) => {
           if (err.response.status === 404) {
-            setError('User not found');
+            setError("User not found");
           } else if (err.response.status === 400) {
-            setError('User input is incorrect');
+            setError("User input is incorrect");
           } else {
-            setError('Server error');
+            setError("Server error");
           }
         });
-    }
+    };
 
     const getTodoByUserId = (user) => {
       axios
         .get(`http://localhost:8080/todo/${user._id}`)
         .then((res) => {
           if (res.status === 200) {
-            navigate("/profile", { state: { user: user, todo: res.data} });
+            navigate("/profile", { state: { user: user, todo: res.data } });
           }
         })
         .catch((err) => {
-          console.log(err)
+          console.log(err);
         });
-    }
+    };
 
     loginUser();
   };
@@ -113,9 +114,14 @@ const Login = () => {
           }}
         />
         <Button variant="contained" color="secondary" style={styles.button}>
-          <Link to={'/'}>Go Back</Link>
+          <Link to={"/"}>Go Back</Link>
         </Button>
-        <Button type="submit" variant="contained" color="primary" style={styles.button}>
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          style={styles.button}
+        >
           Submit
         </Button>
         {error ? (

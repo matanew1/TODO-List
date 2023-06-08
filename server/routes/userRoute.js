@@ -5,7 +5,6 @@ import configuration from "../config/config.js";
 import cors from "cors";
 
 const corsOptions = configuration.corsOptions;
-
 router.options("/users", cors(corsOptions));
 
 /**

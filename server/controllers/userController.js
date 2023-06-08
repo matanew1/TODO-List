@@ -1,5 +1,6 @@
 import UserService from "../services/userService.js";
 import exceptions from "../config/exceptions.js";
+import getMAC from "getmac";
 
 /**
  * Controller class for handling user-related operations.
@@ -30,10 +31,9 @@ class UserController {
     try {
       const newUser = req.body;
       const user = await UserService.createUser(newUser);
-      res.cookie("userId", user?._id);
+      if (!req.cookies?.id) res.cookie("Id", getMAC());
       res.status(201).send(user);
     } catch (error) {
-      console.log(error.message);
       switch (error.message) {
         case `Error: ${exceptions.ALREADY_EXIST.message}`:
           res.status(exceptions.ALREADY_EXIST.statusCode).send(error.message);
@@ -57,6 +57,7 @@ class UserController {
       if (!user) {
         res.status(404).send("User not found.");
       } else {
+        if (!req.cookies?.id) res.cookie("Id", getMAC());
         res.status(200).send(user);
       }
     } catch (error) {

@@ -51,7 +51,9 @@ const Profile = () => {
 
   const fetchAllTasks = useCallback(() => {
     axios
-      .get(`http://localhost:8080/todo/tasks/${user._id}`)
+      .get(`http://localhost:8080/todo/tasks/${user._id}`, {
+        withCredentials: true,
+      })
       .then((res) => {
         if (res.status === 200) {
           console.log("Fetch All Todos");
@@ -97,6 +99,7 @@ const Profile = () => {
     ) {
       axios
         .post(`http://localhost:8080/todo/tasks`, JSON.stringify(taskBody), {
+          withCredentials: true,
           headers: { "Content-Type": "application/json" },
         })
         .then((res) => {

@@ -1,4 +1,5 @@
-import TodoService from '../services/todoService.js';
+import TodoService from "../services/todoService.js";
+import { isMAC } from "getmac";
 
 /**
  * Controller class for handling todo-related operations.
@@ -31,12 +32,14 @@ class TodoController {
 
   static getAllTasks = async (req, res) => {
     try {
-      const tasks = await TodoService.getAllTasks(req.params._id)
-      res.status(200).send(tasks)
+      if (isMAC(req.cookies?.Id)) {
+        const tasks = await TodoService.getAllTasks(req.params._id);
+        res.status(200).send(tasks);
+      } else res.status(401);
     } catch (err) {
-      res.status(500).send(err)
+      res.status(500).send(err);
     }
-  }
+  };
 }
 
 export default TodoController;
