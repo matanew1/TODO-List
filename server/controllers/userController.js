@@ -30,6 +30,7 @@ class UserController {
     try {
       const newUser = req.body;
       const user = await UserService.createUser(newUser);
+      res.cookie("userId", user?._id);
       res.status(201).send(user);
     } catch (error) {
       console.log(error.message);
@@ -37,36 +38,43 @@ class UserController {
         case `Error: ${exceptions.ALREADY_EXIST.message}`:
           res.status(exceptions.ALREADY_EXIST.statusCode).send(error.message);
           break;
-        default: 
+        default:
           res.status(500).send(error.message);
           break;
       }
     }
   };
 
-    /**
+  /**
    * Login user.
    * @param {Object} req - The request object.
    * @param {Object} res - The response object.
    * @returns {Promise<void>} - A promise that resolves with the created user.
    */
-    static loginUser = async (req, res) => {
-      try {
-        const user = await UserService.loginUser(req.body);
-        if(!user) {
-          res.status(404).send("User not found.");
-        }
-        else {
-          res.status(200).send(user);
-        }
-      } catch (error) {
-        if(error.message === `Error: ${exceptions.INVALID_USER_INPUT.message}`) {
-          res.status(exceptions.INVALID_USER_INPUT.statusCode).send(error.message);
-        } else if (error.message === `Error: ${exceptions.USER_DOESNT_EXIST.message}`) {
-          res.status(404).send(error.message === `Error: ${exceptions.USER_DOESNT_EXIST.message}`)
-        }
+  static loginUser = async (req, res) => {
+    try {
+      const user = await UserService.loginUser(req.body);
+      if (!user) {
+        res.status(404).send("User not found.");
+      } else {
+        res.status(200).send(user);
       }
-    };
+    } catch (error) {
+      if (error.message === `Error: ${exceptions.INVALID_USER_INPUT.message}`) {
+        res
+          .status(exceptions.INVALID_USER_INPUT.statusCode)
+          .send(error.message);
+      } else if (
+        error.message === `Error: ${exceptions.USER_DOESNT_EXIST.message}`
+      ) {
+        res
+          .status(404)
+          .send(
+            error.message === `Error: ${exceptions.USER_DOESNT_EXIST.message}`
+          );
+      }
+    }
+  };
 
   /**
    * Get user ID by email.

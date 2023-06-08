@@ -5,7 +5,6 @@ import axios from "axios";
 import styles from "../styles/styles.jsx";
 
 const Signup = () => {
-
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
@@ -21,9 +20,11 @@ const Signup = () => {
         password,
         email,
       };
-  
+
       axios
-        .post("http://localhost:8080/users", JSON.stringify(body), {
+        .post("http://localhost:8080/users", JSON.stringify(body), 
+        {
+          withCredentials: true, // Include cookies in the request
           headers: { "Content-Type": "application/json" },
         })
         .then((res) => {
@@ -33,16 +34,17 @@ const Signup = () => {
           }
         })
         .catch((err) => {
-          if (err.response.status === 409) {
+          console.log(err);
+          if (err.code === "ERR_NETWORK") {
             setError("User already exists");
           } else {
             setError("Something went wrong");
           }
         });
-    }
+    };
 
     const createTodo = (user) => {
-      console.log('data',user)
+      console.log("data", user);
       const todoBody = {
         name: user.name,
         owner: user._id,
@@ -51,23 +53,25 @@ const Signup = () => {
 
       console.log(todoBody);
       axios
-      .post("http://localhost:8080/todo", JSON.stringify(todoBody), {
-        headers: { "Content-Type": "application/json" },
-      })
-      .then((res) => {
-        if (res.status === 201) {
-          console.log("User signup");
-          navigate("/profile", { state: { user: user, todo: res.data} });
-        }
-      })
-      .catch((err) => {
-        if (err.response.status === 409) {
-          setError("User already exists");
-        } else {
-          setError("Something went wrong");
-        }
-      });
-    }
+        .post("http://localhost:8080/todo", JSON.stringify(todoBody), {
+          //withCredentials: true,
+          headers: { "Content-Type": "application/json" },
+        })
+        .then((res) => {
+          if (res.status === 201) {
+            console.log("User signup");
+            navigate("/profile", { state: { user: user, todo: res.data } });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          if (err.code === "ERR_NETWORK") {
+            setError("User already exists");
+          } else {
+            setError("Something went wrong");
+          }
+        });
+    };
 
     createUser();
   };
