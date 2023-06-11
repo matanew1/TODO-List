@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, useContext } from "react";
 import { useLocation, Link } from "react-router-dom";
 import {
   Typography,
@@ -18,11 +18,13 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import styles from "../styles/styles.jsx";
 import axios from "axios";
+import { UserContext } from "../context/UserContext.jsx";
 
 const Profile = () => {
   const location = useLocation();
   const user = location?.state?.user;
   const todo = location?.state?.todo;
+  const { isLoggedIn } = useContext(UserContext);
 
   const [todos, setTodos] = useState({});
   const [name, setName] = useState("");
@@ -113,9 +115,10 @@ const Profile = () => {
   };
 
   useEffect(() => {
+    console.log(isLoggedIn)
     fetchAllTasks();
     clearForm();
-  }, [clearForm, fetchAllTasks, todo, user]);
+  }, [clearForm, fetchAllTasks, isLoggedIn, todo, user]);
 
   return (
     <Container maxWidth="md" style={styles.container}>
@@ -219,11 +222,12 @@ const Profile = () => {
             </Button>
             <br />
             <br />
-            <Button variant="contained" color="primary" fullWidth>
+            { isLoggedIn ? (<Button variant="contained" color="primary" fullWidth>
               <Link to={"/"} style={styles.link}>
-                Go Back
+                Logout
               </Link>
-            </Button>
+            </Button>) : (<></>) }
+
           </form>
         </Grid>
       </Grid>

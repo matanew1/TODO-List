@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Button, TextField, Container, Typography } from "@mui/material";
 import axios from "axios";
 import styles from "../styles/styles.jsx";
+import { UserContext } from "../context/UserContext.jsx";
 
 const Signup = () => {
+  const { updateUser } = useContext(UserContext);
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
@@ -29,6 +31,7 @@ const Signup = () => {
         .then((res) => {
           if (res.status === 201) {
             console.log("User signup");
+            updateUser(res.data);
             createTodo(res.data);
           }
         })
